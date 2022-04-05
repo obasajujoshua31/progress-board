@@ -1,0 +1,36 @@
+interface Entry {
+  id: Int!
+  name: String!
+}
+
+type IsCompleted {
+  isCompleted: Boolean
+}
+
+type EntryWithIsCompleted implements Entry {
+  id: Int!
+  name: String!
+  isCompleted: Boolean
+}
+
+
+
+type PhaseResponse{
+   phase: EntryWithIsCompleted
+  tasks: [EntryWithIsCompleted]
+}
+
+type Query {
+  allPossibleTasks: [Entry]!
+  allPossiblePhases: [Entry]!
+  getProgress(orgId: String!): [PhaseResponse]!
+}
+
+type Mutation {
+  addPossibleTask(task: String!): [Entry]
+  addPossiblePhase(phase: String!): [Entry]
+  initProgress(orgId: String!): Boolean
+  addPhaseToProgress(orgId: String!, phasesIds: [Int]!): [PhaseResponse]!
+  addTaskToPhase(orgId: String!, phaseId: Int!, taskIds: [Int]!): [PhaseResponse]!
+  completeTask(orgId: String!, phaseId: Int!, taskId: Int!): Boolean
+}
